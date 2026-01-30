@@ -13,7 +13,7 @@ pub enum ProxyAuthMode {
 
 impl Default for ProxyAuthMode {
     fn default() -> Self {
-        Self::Off
+        Self::Auto
     }
 }
 
