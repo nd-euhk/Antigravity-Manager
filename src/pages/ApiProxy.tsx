@@ -866,7 +866,7 @@ print(response.text)`;
                         <div className="flex flex-col items-center gap-4">
                             <RefreshCw size={32} className="animate-spin text-blue-500" />
                             <span className="text-sm text-gray-500 dark:text-gray-400">
-                                {t('common.loading') || 'Loading...'}
+                                {t('common.loading')}
                             </span>
                         </div>
                     </div>
@@ -881,7 +881,7 @@ print(response.text)`;
                             </div>
                             <div className="space-y-2">
                                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                                    {t('proxy.error.load_failed') || 'Failed to load configuration'}
+                                    {t('proxy.error.load_failed')}
                                 </h3>
                                 <p className="text-sm text-gray-500 dark:text-gray-400 max-w-md">
                                     {configError}
@@ -892,7 +892,7 @@ print(response.text)`;
                                 className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium flex items-center gap-2 transition-colors"
                             >
                                 <RefreshCw size={16} />
-                                {t('common.retry') || 'Retry'}
+                                {t('common.retry')}
                             </button>
                         </div>
                     </div>
@@ -912,7 +912,7 @@ print(response.text)`;
                                     <div className={`w-2 h-2 rounded-full ${status.running ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`} />
                                     <span className={`text-xs font-medium ${status.running ? 'text-green-600' : 'text-gray-500'}`}>
                                         {status.running
-                                            ? `${t('proxy.status.running')} (${status.active_accounts} ${t('common.accounts') || 'Accounts'})`
+                                            ? `${t('proxy.status.running')} (${status.active_accounts} ${t('common.accounts')})`
                                             : t('proxy.status.stopped')}
                                     </span>
                                 </div>
@@ -1414,7 +1414,7 @@ print(response.text)`;
                                                                 value=""
                                                                 onChange={(e) => e.target.value && updateZaiDefaultModels({ [family]: e.target.value })}
                                                             >
-                                                                <option value="">Select</option>
+                                                                <option value="">{t('proxy.config.zai.models.select_placeholder')}</option>
                                                                 {zaiModelOptions.map(m => <option key={m} value={m}>{m}</option>)}
                                                             </select>
                                                         )}

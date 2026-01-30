@@ -1,6 +1,7 @@
 {
     "common": {
         "loading": "Loading...",
+        "empty": "Empty",
         "load_more": "Load More",
         "add": "Add",
         "copy": "Copy",
@@ -35,7 +36,9 @@
         "disabled": "Disabled",
         "tauri_api_not_loaded": "Tauri API not loaded, please restart the app",
         "environment_error": "Environment error: {{error}}",
-        "submit": "Submit"
+        "submit": "Submit",
+        "retry": "Retry",
+        "back": "Back"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -211,7 +214,11 @@
                 "link_click_to_copy": "Click to copy",
                 "manual_hint": "Browser didn't redirect? Paste the full callback URL or raw Code here:",
                 "manual_placeholder": "Paste callback URL or code...",
-                "error_no_flow": "Please click 'Start OAuth' first"
+                "error_no_flow": "Please click 'Start OAuth' first",
+                "error_no_url": "Could not obtain OAuth URL",
+                "popup_blocked": "Popup blocked",
+                "manual_submitting": "Submitting authorization code...",
+                "manual_submitted": "Authorization code submitted. Backend is processing..."
             },
             "token": {
                 "label": "Refresh Token",
@@ -405,6 +412,10 @@
             "support_alipay": "Alipay",
             "support_wechat": "WeChat Pay",
             "support_buymeacoffee": "Buy Me a Coffee"
+        },
+        "branding": {
+            "title": "Antigravity Tools",
+            "subtitle": "Professional Account Management"
         }
     },
     "tray": {
@@ -420,6 +431,9 @@
     },
     "proxy": {
         "title": "API Proxy Service",
+        "error": {
+            "load_failed": "Failed to load configuration"
+        },
         "status": {
             "running": "Service Running",
             "stopped": "Service Stopped",
@@ -871,6 +885,34 @@
         "dialog": {
             "clear_title": "Clear Proxy Logs",
             "clear_msg": "Are you sure you want to clear all proxy logs? This action cannot be undone."
+        },
+        "network": {
+            "title": "Network Monitor",
+            "open": "Open Network Monitor",
+            "requests_count": "{{count}} requests",
+            "start_recording": "Start Recording",
+            "stop_recording": "Stop Recording",
+            "clear_requests": "Clear Requests",
+            "empty": "No requests recorded",
+            "waiting": "Waiting for response...",
+            "badge_error": "Error",
+            "table": {
+                "status": "Status",
+                "command": "Command",
+                "time": "Time",
+                "duration": "Duration"
+            },
+            "sections": {
+                "general": "General",
+                "request_args": "Request Args",
+                "error_details": "Error Details",
+                "response": "Response"
+            },
+            "fields": {
+                "status": "Status",
+                "start_time": "Start Time",
+                "duration": "Duration"
+            }
         }
     },
     "update_notification": {

@@ -962,7 +962,7 @@ function Settings() {
                                                 v4.0.9
                                             </span>
                                             <span className="text-gray-400 dark:text-gray-600">•</span>
-                                            <span className="text-gray-500 dark:text-gray-400">Professional Account Management</span>
+                                            <span className="text-gray-500 dark:text-gray-400">{t('settings.branding.subtitle')}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1171,7 +1171,7 @@ function Settings() {
                                     <div className="w-full aspect-square relative bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100">
                                         <img src="/images/donate/coffee.png" alt="Buy Me A Coffee" className="w-full h-full object-contain" />
                                     </div>
-                                    <span className="text-xs font-bold text-gray-700 dark:text-gray-300">Buy Me a Coffee</span>
+                                    <span className="text-xs font-bold text-gray-700 dark:text-gray-300">{t('settings.about.support_buymeacoffee')}</span>
                                 </div>
                             </div>
 

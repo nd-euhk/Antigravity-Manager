@@ -36,7 +36,9 @@
         "tauri_api_not_loaded": "Tauri APIが読み込まれていません。アプリを再起動してください",
         "environment_error": "環境エラー: {{error}}",
         "load_more": "もっと読み込む",
-        "submit": "送信"
+        "submit": "送信",
+        "retry": "再試行",
+        "back": "戻る"
     },
     "nav": {
         "dashboard": "ダッシュボード",
@@ -207,7 +209,11 @@
                 "link_click_to_copy": "クリックしてコピー",
                 "manual_hint": "ブラウザがリダイレクトされませんでしたか？ここにコールバックURLまたはコードを貼り付けてください：",
                 "manual_placeholder": "コールバックURLまたはコードを貼り付け...",
-                "error_no_flow": "まず「OAuth認証を開始」をクリックしてください"
+                "error_no_flow": "まず「OAuth認証を開始」をクリックしてください",
+                "error_no_url": "OAuth URLを取得できませんでした",
+                "popup_blocked": "ポップアップがブロックされました",
+                "manual_submitting": "認可コードを送信中...",
+                "manual_submitted": "認可コードを送信しました。バックエンドで処理中です..."
             },
             "token": {
                 "label": "リフレッシュトークン",
@@ -395,7 +401,7 @@
             "support_desc": "このプロジェクトがお役に立てば、コーヒーを一杯ご馳走してください！皆様のサポートが、プロジェクトを継続する最大の動機です。",
             "support_alipay": "Alipay",
             "support_wechat": "WeChat Pay",
-            "support_buymeacoffee": "Buy Me a Coffee"
+            "support_buymeacoffee": "コーヒーを奢る"
         },
         "quota_protection": {
             "auto_restore_info": "クォータがリセットされると、アカウントは自動的に再度有効になります",
@@ -430,6 +436,9 @@
     },
     "proxy": {
         "title": "APIプロキシサービス",
+        "error": {
+            "load_failed": "設定の読み込みに失敗しました"
+        },
         "status": {
             "running": "サービス稼働中",
             "stopped": "サービス停止中",
@@ -891,7 +900,32 @@
             "clear_msg": "すべてのプロキシログをクリアしてもよろしいですか？この操作は取り消せません。"
         },
         "network": {
-            "title": "ネットワークモニター"
+            "title": "ネットワークモニター",
+            "open": "ネットワークモニターを開く",
+            "requests_count": "{{count}} 件",
+            "start_recording": "記録を開始",
+            "stop_recording": "記録を停止",
+            "clear_requests": "リクエストをクリア",
+            "empty": "記録されたリクエストはありません",
+            "waiting": "応答待ち...",
+            "badge_error": "エラー",
+            "table": {
+                "status": "状態",
+                "command": "コマンド",
+                "time": "時刻",
+                "duration": "所要時間"
+            },
+            "sections": {
+                "general": "概要",
+                "request_args": "リクエスト引数",
+                "error_details": "エラー詳細",
+                "response": "レスポンス"
+            },
+            "fields": {
+                "status": "状態",
+                "start_time": "開始時刻",
+                "duration": "所要時間"
+            }
         }
     },
     "update_notification": {
