@@ -36,7 +36,13 @@
         "disabled": "Отключено",
         "tauri_api_not_loaded": "API Tauri не загружен, пожалуйста перезапустите приложение",
         "environment_error": "Ошибка окружения: {{error}}",
-        "submit": "Отправить"
+        "submit": "Отправить",
+        "update": "Обновить",
+        "load_failed": "Ошибка загрузки",
+        "create_success": "Успешно создано",
+        "update_success": "Успешно обновлено",
+        "delete_success": "Успешно удалено",
+        "copied": "Скопировано в буфер обмена"
     },
     "nav": {
         "dashboard": "Дашборд",
@@ -1080,5 +1086,39 @@
             "save_success": "Настройки сохранены",
             "save_error": "Ошибка сохранения настроек"
         }
+    },
+    "user_token": {
+        "title": "Управление токенами пользователей",
+        "total_users": "Всего пользователей",
+        "active_tokens": "Активные токены",
+        "total_created": "Всего создано",
+        "create": "Создать токен",
+        "username": "Имя пользователя",
+        "token": "Токен",
+        "expires": "Истекает",
+        "usage": "Использование",
+        "ip_limit": "Лимит IP",
+        "created": "Создан",
+        "today_requests": "Запросы за сегодня",
+        "never": "Никогда",
+        "renew": "Продлить",
+        "renew_button": "Продлить",
+        "unlimited": "Безлимитно",
+        "create_title": "Создание нового токена",
+        "description": "Описание",
+        "curfew": "Комендантский час (время недоступности)",
+        "edit_title": "Редактирование токена",
+        "username_required": "Имя пользователя обязательно",
+        "renew_success": "Успешно продлен",
+        "expires_day": "1 день",
+        "expires_week": "1 неделя",
+        "expires_month": "1 месяц",
+        "expires_never": "Никогда",
+        "no_data": "Токены не найдены",
+        "placeholder_username": "напр. user1",
+        "placeholder_desc": "Необязательные заметки",
+        "placeholder_max_ips": "0 = Безлимитно",
+        "hint_max_ips": "0 означает безлимитно",
+        "hint_curfew": "Оставьте пустым, чтобы отключить. По времени сервера."
     }
 }

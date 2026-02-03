@@ -35,7 +35,13 @@
         "disabled": "비활성화됨",
         "tauri_api_not_loaded": "Tauri API가 로드되지 않았습니다. 앱을 다시 시작해주세요.",
         "environment_error": "환경 오류: {{error}}",
-        "submit": "제출"
+        "submit": "제출",
+        "update": "업데이트",
+        "load_failed": "로드 실패",
+        "create_success": "생성 성공",
+        "update_success": "업데이트 성공",
+        "delete_success": "삭제 성공",
+        "copied": "클립보드에 복사됨"
     },
     "nav": {
         "dashboard": "대시보드",
@@ -1136,6 +1142,7 @@
         "usage": "사용량",
         "ip_limit": "IP 제한",
         "created": "생성됨",
+        "today_requests": "오늘의 요청",
         "never": "없음",
         "renew": "갱신",
         "renew_button": "갱신",

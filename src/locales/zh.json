@@ -35,7 +35,13 @@
         "disabled": "已禁用",
         "tauri_api_not_loaded": "Tauri API 未正确加载,请重启应用",
         "environment_error": "环境错误: {{error}}",
-        "submit": "提交"
+        "submit": "提交",
+        "update": "更新",
+        "load_failed": "加载失败",
+        "create_success": "创建成功",
+        "update_success": "更新成功",
+        "delete_success": "删除成功",
+        "copied": "已复制到剪贴板"
     },
     "nav": {
         "dashboard": "仪表盘",
@@ -1152,6 +1158,7 @@
         "usage": "使用量",
         "ip_limit": "IP 限制",
         "created": "创建时间",
+        "today_requests": "今日请求数",
         "never": "永不过期",
         "renew": "续期",
         "renew_button": "续费",

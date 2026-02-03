@@ -35,7 +35,13 @@
         "disabled": "معطل",
         "tauri_api_not_loaded": "Tauri API لم يتم تحميله، يرجى إعادة تشغيل التطبيق",
         "environment_error": "خطأ في البيئة: {{error}}",
-        "submit": "إرسال"
+        "submit": "إرسال",
+        "update": "تحديث",
+        "load_failed": "فشل التحميل",
+        "create_success": "تم الإنشاء بنجاح",
+        "update_success": "تم التحديث بنجاح",
+        "delete_success": "تم الحذف بنجاح",
+        "copied": "تم النسخ إلى الحافظة"
     },
     "nav": {
         "dashboard": "الرئيسية",
@@ -1103,6 +1109,7 @@
         "usage": "الاستخدام",
         "ip_limit": "حد IP",
         "created": "تاريخ الإنشاء",
+        "today_requests": "طلبات اليوم",
         "never": "أبدًا",
         "renew": "تجديد",
         "renew_button": "تجديد",

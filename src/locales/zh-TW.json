@@ -36,7 +36,13 @@
         "disabled": "已停用",
         "tauri_api_not_loaded": "Tauri API 未正確載入,請重啟應用",
         "environment_error": "環境錯誤: {{error}}",
-        "submit": "提交"
+        "submit": "提交",
+        "update": "更新",
+        "load_failed": "載入失敗",
+        "create_success": "建立成功",
+        "update_success": "更新成功",
+        "delete_success": "刪除成功",
+        "copied": "已複製到剪貼簿"
     },
     "nav": {
         "dashboard": "儀表板",
@@ -1110,5 +1116,39 @@
             "save_success": "設定已儲存",
             "save_error": "儲存設定失敗"
         }
+    },
+    "user_token": {
+        "title": "用戶 Token 管理",
+        "total_users": "用戶總數",
+        "active_tokens": "活躍 Token",
+        "total_created": "累計建立",
+        "create": "建立 Token",
+        "username": "用戶名",
+        "token": "Token",
+        "expires": "過期時間",
+        "usage": "使用量",
+        "ip_limit": "IP 限制",
+        "created": "建立時間",
+        "today_requests": "今日請求數",
+        "never": "永不過期",
+        "renew": "續期",
+        "renew_button": "續期",
+        "unlimited": "不限",
+        "create_title": "建立新 Token",
+        "description": "描述",
+        "curfew": "宵禁時間 (服務不可用時段)",
+        "edit_title": "編輯 Token",
+        "username_required": "用戶名不能為空",
+        "renew_success": "續期成功",
+        "expires_day": "1 天",
+        "expires_week": "1 週",
+        "expires_month": "1 個月",
+        "expires_never": "永不過期",
+        "no_data": "暫無數據",
+        "placeholder_username": "例如: user1",
+        "placeholder_desc": "選填備註",
+        "placeholder_max_ips": "0 = 不限制",
+        "hint_max_ips": "0 表示不限制",
+        "hint_curfew": "留空則禁用。基於伺服器時間。"
     }
 }

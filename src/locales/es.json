@@ -34,7 +34,13 @@
         "disabled": "Deshabilitado",
         "tauri_api_not_loaded": "API de Tauri no cargada, por favor reinicie la aplicación",
         "environment_error": "Error de entorno: {{error}}",
-        "submit": "Enviar"
+        "submit": "Enviar",
+        "update": "Actualizar",
+        "load_failed": "Error al cargar",
+        "create_success": "Creado exitosamente",
+        "update_success": "Actualizado exitosamente",
+        "delete_success": "Eliminado exitosamente",
+        "copied": "Copiado al portapapeles"
     },
     "nav": {
         "dashboard": "Panel",
@@ -994,5 +1000,39 @@
             "stream_error": "Error de transmisión de stream, por favor reintente más tarde",
             "unknown_error": "Error desconocido ocurrido, por favor reintente más tarde"
         }
+    },
+    "user_token": {
+        "title": "Gestión de Tokens de Usuario",
+        "total_users": "Total de Usuarios",
+        "active_tokens": "Tokens Activos",
+        "total_created": "Total Creados",
+        "create": "Crear Token",
+        "username": "Nombre de usuario",
+        "token": "Token",
+        "expires": "Expira",
+        "usage": "Uso",
+        "ip_limit": "Límite de IP",
+        "created": "Creado",
+        "today_requests": "Solicitudes Hoy",
+        "never": "Nunca",
+        "renew": "Renovar",
+        "renew_button": "Renovar",
+        "unlimited": "Ilimitado",
+        "create_title": "Crear Nuevo Token",
+        "description": "Descripción",
+        "curfew": "Toque de queda (Horario no disponible)",
+        "edit_title": "Editar Token",
+        "username_required": "Nombre de usuario requerido",
+        "renew_success": "Renovado exitosamente",
+        "expires_day": "1 Día",
+        "expires_week": "1 Semana",
+        "expires_month": "1 Mes",
+        "expires_never": "Nunca",
+        "no_data": "No se encontraron tokens",
+        "placeholder_username": "ej. user1",
+        "placeholder_desc": "Notas opcionales",
+        "placeholder_max_ips": "0 = Ilimitado",
+        "hint_max_ips": "0 significa ilimitado",
+        "hint_curfew": "Dejar vacío para desactivar. Basado en la hora del servidor."
     }
 }

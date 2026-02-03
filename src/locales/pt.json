@@ -35,7 +35,13 @@
         "disabled": "Desabilitado",
         "tauri_api_not_loaded": "API Tauri não carregada, por favor reinicie o aplicativo",
         "environment_error": "Erro de ambiente: {{error}}",
-        "submit": "Enviar"
+        "submit": "Enviar",
+        "update": "Atualizar",
+        "load_failed": "Falha ao carregar",
+        "create_success": "Criado com sucesso",
+        "update_success": "Atualizado com sucesso",
+        "delete_success": "Excluído com sucesso",
+        "copied": "Copiado para a área de transferência"
     },
     "nav": {
         "dashboard": "Painel",
@@ -1082,5 +1088,39 @@
             "save_success": "Configuração salva",
             "save_error": "Falha ao salvar configuração"
         }
+    },
+    "user_token": {
+        "title": "Gestão de Tokens de Usuário",
+        "total_users": "Total de Usuários",
+        "active_tokens": "Tokens Ativos",
+        "total_created": "Total Criados",
+        "create": "Criar Token",
+        "username": "Nome de usuário",
+        "token": "Token",
+        "expires": "Expira em",
+        "usage": "Uso",
+        "ip_limit": "Limite de IP",
+        "created": "Criado em",
+        "today_requests": "Solicitações de Hoje",
+        "never": "Nunca",
+        "renew": "Renovar",
+        "renew_button": "Renovar",
+        "unlimited": "Ilimitado",
+        "create_title": "Criar Novo Token",
+        "description": "Descrição",
+        "curfew": "Toque de recolher (Horário indisponível)",
+        "edit_title": "Editar Token",
+        "username_required": "Nome de usuário obrigatório",
+        "renew_success": "Renovado com sucesso",
+        "expires_day": "1 Dia",
+        "expires_week": "1 Semana",
+        "expires_month": "1 Mês",
+        "expires_never": "Nunca",
+        "no_data": "Nenhum token encontrado",
+        "placeholder_username": "ex: user1",
+        "placeholder_desc": "Notas opcionais",
+        "placeholder_max_ips": "0 = Ilimitado",
+        "hint_max_ips": "0 significa ilimitado",
+        "hint_curfew": "Deixe em branco para desativar. Baseado na hora do servidor."
     }
 }

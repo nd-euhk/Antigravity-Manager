@@ -34,7 +34,13 @@
         "disabled": "Devre Dışı",
         "tauri_api_not_loaded": "Tauri API yüklenemedi, lütfen uygulamayı yeniden başlatın",
         "environment_error": "Ortam hatası: {{error}}",
-        "submit": "Gönder"
+        "submit": "Gönder",
+        "update": "Güncelle",
+        "load_failed": "Yükleme başarısız",
+        "create_success": "Başarıyla oluşturuldu",
+        "update_success": "Başarıyla güncellendi",
+        "delete_success": "Başarıyla silindi",
+        "copied": "Panoya kopyalandı"
     },
     "nav": {
         "dashboard": "Kontrol Paneli",
@@ -1051,5 +1057,39 @@
             "save_success": "Yapılandırma kaydedildi",
             "save_error": "Yapılandırma kaydedilemedi"
         }
+    },
+    "user_token": {
+        "title": "Kullanıcı Token Yönetimi",
+        "total_users": "Toplam Kullanıcı",
+        "active_tokens": "Aktif Tokenlar",
+        "total_created": "Toplam Oluşturulan",
+        "create": "Token Oluştur",
+        "username": "Kullanıcı adı",
+        "token": "Token",
+        "expires": "Süre Sonu",
+        "usage": "Kullanım",
+        "ip_limit": "IP Sınırı",
+        "created": "Oluşturulma",
+        "today_requests": "Bugünkü İstekler",
+        "never": "Asla",
+        "renew": "Yenile",
+        "renew_button": "Yenile",
+        "unlimited": "Sınırsız",
+        "create_title": "Yeni Token Oluştur",
+        "description": "Açıklama",
+        "curfew": "Sokağa çıkma yasağı (Kullanılamaz zaman)",
+        "edit_title": "Tokenı Düzenle",
+        "username_required": "Kullanıcı adı zorunludur",
+        "renew_success": "Başarıyla yenilendi",
+        "expires_day": "1 Gün",
+        "expires_week": "1 Hafta",
+        "expires_month": "1 Ay",
+        "expires_never": "Asla",
+        "no_data": "Token bulunamadı",
+        "placeholder_username": "örn: user1",
+        "placeholder_desc": "İsteğe bağlı notlar",
+        "placeholder_max_ips": "0 = Sınırsız",
+        "hint_max_ips": "0 sınırsız demektir",
+        "hint_curfew": "Devre dışı bırakmak için boş bırakın. Sunucu saatine göredir."
     }
 }

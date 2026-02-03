@@ -34,7 +34,13 @@
         "disabled": "Dinyahaktifkan",
         "tauri_api_not_loaded": "API Tauri tidak dimuatkan, sila mulakan semula aplikasi",
         "environment_error": "Ralat persekitaran: {{error}}",
-        "submit": "Hantar"
+        "submit": "Hantar",
+        "update": "Kemas kini",
+        "load_failed": "Gagal dimuatkan",
+        "create_success": "Berjaya dicipta",
+        "update_success": "Berjaya dikemas kini",
+        "delete_success": "Berjaya dipadam",
+        "copied": "Disalin ke papan klip"
     },
     "nav": {
         "dashboard": "Papan Pemuka",
@@ -988,5 +994,39 @@
             "stream_error": "Ralat penghantaran strim, sila cuba semula kemudian",
             "unknown_error": "Ralat tidak diketahui berlaku, sila cuba semula kemudian"
         }
+    },
+    "user_token": {
+        "title": "Pengurusan Token Pengguna",
+        "total_users": "Jumlah Pengguna",
+        "active_tokens": "Token Aktif",
+        "total_created": "Jumlah Dicipta",
+        "create": "Cipta Token",
+        "username": "Nama pengguna",
+        "token": "Token",
+        "expires": "Tamat Tempoh",
+        "usage": "Penggunaan",
+        "ip_limit": "Had IP",
+        "created": "Dicipta pada",
+        "today_requests": "Permintaan Hari Ini",
+        "never": "Selasma",
+        "renew": "Perbaharui",
+        "renew_button": "Perbaharui",
+        "unlimited": "Tanpa had",
+        "create_title": "Cipta Token Baharu",
+        "description": "Penerangan",
+        "curfew": "Waktu perintah berkurung (Perkhidmatan tidak tersedia)",
+        "edit_title": "Sunting Token",
+        "username_required": "Nama pengguna diperlukan",
+        "renew_success": "Berjaya diperbaharui",
+        "expires_day": "1 Hari",
+        "expires_week": "1 Minggu",
+        "expires_month": "1 Bulan",
+        "expires_never": "Selasma",
+        "no_data": "Tiada token ditemui",
+        "placeholder_username": "cth. user1",
+        "placeholder_desc": "Nota pilihan",
+        "placeholder_max_ips": "0 = Tanpa had",
+        "hint_max_ips": "0 bermaksud tanpa had",
+        "hint_curfew": "Biarkan kosong untuk nyahaktifkan. Berdasarkan masa pelayan."
     }
 }

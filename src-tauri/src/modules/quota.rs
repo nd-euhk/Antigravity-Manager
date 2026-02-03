@@ -301,7 +301,6 @@ pub async fn warmup_model_directly(
         .no_proxy()
         .build()
         .unwrap_or_else(|_| reqwest::Client::new());
-
     let resp = client
         .post(&warmup_url)
         .header("Content-Type", "application/json")
