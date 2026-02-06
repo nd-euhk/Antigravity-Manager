@@ -261,6 +261,11 @@ print(response.choices[0].message.content)
             -   **Auto-Disable Logic**: Automatically marks accounts as `is_forbidden` and removes them from the active memory pool upon encountering 403 errors.
             -   **Temporary Risk Control detection**: Identifies `VALIDATION_REQUIRED` errors and implements a 10-minute temporary block for affected accounts.
             -   **Rotation Stability**: Fixed premature returns during `QUOTA_EXHAUSTED` errors, ensuring the system correctly attempts to rotate to the next available account.
+        -   **[Core Feature] OpenCode CLI Configuration Sync Integration (#1614)**:
+            -   **One-click Sync**: Automatically generates `~/.config/opencode/opencode.json` with proper provider settings for Anthropic and Google.
+            -   **Account Export**: Optionally syncs accounts to `antigravity-accounts.json` for OpenCode plugin compatibility.
+            -   **Backup & Restore**: Automatically creates a backup before syncing, with the ability to restore previous configurations.
+            -   **Cross-platform Support**: Consistent support across Windows, macOS, and Linux.
     *   **v4.1.6 (2026-02-06)**:
         -   **[Core Fix] Deep Refactor of Claude/Gemini Thinking Model Interruptions & Tool Loop Recovery (#1575)**:
             -   **Thinking Recovery**: Introduced `thinking_recovery` mechanism. Automatically strips stale thinking blocks and guides the model when status loops or interruptions are detected, enhancing stability in complex tool-calling scenarios.
