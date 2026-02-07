@@ -732,6 +732,17 @@
                 "sync_confirm_message": "将根据当前反代设置覆盖 OpenCode 配置。确定继续？",
                 "restore_confirm": "确定要将 OpenCode 还原为默认配置吗？",
                 "restore_backup_confirm": "确定要从备份还原 OpenCode 配置吗？"
+            },
+            "droid_sync": {
+                "modal_title": "添加模型到 Droid",
+                "modal_desc": "选中的模型将作为 customModels 写入 settings.json",
+                "selected": "已选",
+                "btn_confirm_sync": "添加所选模型",
+                "toast": {
+                    "no_models_selected": "请至少选择一个模型",
+                    "sync_success_count": "已添加 {{count}} 个模型到 Droid",
+                    "sync_error": "同步失败: {{error}}"
+                }
             }
         },
         "cloudflared": {

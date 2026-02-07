@@ -741,6 +741,17 @@
                 "sync_confirm_message": "OpenCode config will be overwritten based on current proxy settings. Continue?",
                 "restore_confirm": "Are you sure you want to restore OpenCode to default settings?",
                 "restore_backup_confirm": "Are you sure you want to restore OpenCode config from backup?"
+            },
+            "droid_sync": {
+                "modal_title": "Add models to Droid",
+                "modal_desc": "Selected models will be added as customModels to settings.json",
+                "selected": "selected",
+                "btn_confirm_sync": "Add selected models",
+                "toast": {
+                    "no_models_selected": "Please select at least one model",
+                    "sync_success_count": "Added {{count}} model(s) to Droid",
+                    "sync_error": "Sync failed: {{error}}"
+                }
             }
         },
         "cloudflared": {
