@@ -1,10 +1,10 @@
-# Maintainer: Antigravity Team <https://github.com/lbjlaq/Antigravity-Manager>
+# Maintainer: Antigravity Team <https://github.com/nd-euhk/Antigravity-Manager>
 pkgname=antigravity-tools-bin
 pkgver=${_pkgver}
 pkgrel=1
 pkgdesc="Professional AI Account Management & Proxy System (Binary Version)"
 arch=('x86_64' 'aarch64')
-url="https://github.com/lbjlaq/Antigravity-Manager"
+url="https://github.com/nd-euhk/Antigravity-Manager"
 license=('CC-BY-NC-SA-4.0')
 depends=('gtk3' 'libappindicator-gtk3' 'openssl' 'webkit2gtk-4.1' 'libnm' 'xdg-utils' 'librsvg')
 provides=('antigravity-tools')

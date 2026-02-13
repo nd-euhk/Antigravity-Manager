@@ -8,7 +8,7 @@
   <p>Seamlessly proxy Gemini & Claude. OpenAI-Compatible. Privacy First.</p>
   
   <p>
-    <a href="https://github.com/lbjlaq/Antigravity-Manager">
+    <a href="https://github.com/nd-euhk/Antigravity-Manager">
       <img src="https://img.shields.io/badge/Version-4.1.16-blue?style=flat-square" alt="Version">
     </a>
     <img src="https://img.shields.io/badge/Tauri-v2-orange?style=flat-square" alt="Tauri">
@@ -121,7 +121,7 @@ If you have [Homebrew](https://brew.sh/) installed, run:
 
 ```bash
 # 1. Tap the repository
-brew tap lbjlaq/antigravity-manager https://github.com/lbjlaq/Antigravity-Manager
+brew tap nd-euhk/antigravity-manager https://github.com/nd-euhk/Antigravity-Manager
 
 # 2. Install the app
 brew install --cask antigravity-tools
@@ -133,19 +133,19 @@ You can choose to install via the one-click script or Homebrew:
 
 **Option 1: One-click script (Recommended)**
 ```bash
-curl -sSL https://raw.githubusercontent.com/lbjlaq/Antigravity-Manager/main/deploy/arch/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/nd-euhk/Antigravity-Manager/main/deploy/arch/install.sh | bash
 ```
 
 **Option 2: via Homebrew** (If you have [Linuxbrew](https://sh.brew.sh/) installed)
 ```bash
-brew tap lbjlaq/antigravity-manager https://github.com/lbjlaq/Antigravity-Manager/releases/download/v4.1.15/Antigravity_Tools_4.1.15_x64.dmg
+brew tap nd-euhk/antigravity-manager https://github.com/nd-euhk/Antigravity-Manager/releases/download/v4.1.15/Antigravity_Tools_4.1.15_x64.dmg
 ```
 
 #### Other Linux Distributions
 The AppImage will be automatically symlinked to your binary path with executable permissions.
 
 ### Option B: Manual Download
-Download from [GitHub Releases](https://github.com/lbjlaq/Antigravity-Manager/releases):
+Download from [GitHub Releases](https://github.com/nd-euhk/Antigravity-Manager/releases):
 *   **macOS**: `.dmg` (Universal, Apple Silicon & Intel)
 *   **Windows**: `.msi` or portable `.zip`
 *   **Linux**: `.deb` or `AppImage`
@@ -163,7 +163,7 @@ docker run -d --name antigravity-manager \
   -e WEB_PASSWORD=your-login-password \
   -e ABV_MAX_BODY_SIZE=104857600 \
   -v ~/.antigravity_tools:/root/.antigravity_tools \
-  lbjlaq/antigravity-manager:latest
+  nd-euhk/antigravity-manager:latest
 
 # Forgot keys? Run `docker logs antigravity-manager` or `grep -E '"api_key"|"admin_password"' ~/.antigravity_tools/gui_config.json`
 
@@ -1452,7 +1452,7 @@ print(response.choices[0].message.content)
             - **Automatic Downgrade Gateway**: Within a single message, any thinking blocks appearing after non-thinking content are automatically downgraded to text to ensure protocol compliance.
             - **Post-Merge Reordering**: Added a mandatory reordering step after Assistant message merging to prevent ordering violations caused by concatenation.
     *   **v3.3.32 (2026-01-15)**:
-        - **Core Scheduling & Stability Optimization (Fix Issue #630, #631 - Special Thanks to @lbjlaq PR #640)**:
+        - **Core Scheduling & Stability Optimization (Fix Issue #630, #631 - Special Thanks to @nd-euhk PR #640)**:
             - **Quota Vulnerability & Bypass Fix**: Resolved potential vulnerabilities where quota protection mechanisms could be bypassed under high concurrency or specific retry scenarios.
             - **Rate-Limit Key Matching Optimization**: Enhanced the precision of rate-limit record matching in `TokenManager`, resolving inconsistent rate-limit judgments in multi-instance or complex network environments.
             - **Account Disabling Enforcement**: Fixed an issue where manually disabled accounts were not immediately removed from the scheduling pool during certain cache lifecycles, ensuring "disable on click".
@@ -1994,12 +1994,12 @@ print(response.choices[0].message.content)
         - **Protocol & Router Expansion**: Native support for OpenAI, Anthropic (Claude Code), and Gemini protocols with high-precision Model Router.
         - **Multimodal Optimization**: Deep adaptation for Imagen 3 with 100MB payload capacity and aspect ratio controls.
         - **Global Upstream Proxy**: Centralized request management supporting HTTP/SOCKS5 with hot-reloading.
-    *   See [Releases](https://github.com/lbjlaq/Antigravity-Manager/releases) for earlier history.
+    *   See [Releases](https://github.com/nd-euhk/Antigravity-Manager/releases) for earlier history.
 
     </details>
 ## 👥 Contributors
 
-<a href="https://github.com/lbjlaq"><img src="https://github.com/lbjlaq.png" width="50px" style="border-radius: 50%;" alt="lbjlaq"/></a>
+<a href="https://github.com/nd-euhk"><img src="https://github.com/nd-euhk.png" width="50px" style="border-radius: 50%;" alt="nd-euhk"/></a>
 <a href="https://github.com/XinXin622"><img src="https://github.com/XinXin622.png" width="50px" style="border-radius: 50%;" alt="XinXin622"/></a>
 <a href="https://github.com/llsenyue"><img src="https://github.com/llsenyue.png" width="50px" style="border-radius: 50%;" alt="llsenyue"/></a>
 <a href="https://github.com/salacoste"><img src="https://github.com/salacoste.png" width="50px" style="border-radius: 50%;" alt="salacoste"/></a>

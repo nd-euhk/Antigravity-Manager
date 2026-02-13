@@ -1,5 +1,5 @@
 # Antigravity Tools Install Script for Windows
-# Usage: irm https://raw.githubusercontent.com/lbjlaq/Antigravity-Manager/main/install.ps1 | iex
+# Usage: irm https://raw.githubusercontent.com/nd-euhk/Antigravity-Manager/main/install.ps1 | iex
 #
 # Parameters (set before running):
 #   $Version = "4.1.15"  # Install specific version
@@ -10,7 +10,7 @@ if (-not $DryRun) { $DryRun = $false }
 
 $ErrorActionPreference = "Continue"
 
-$Repo = "lbjlaq/Antigravity-Manager"
+$Repo = "nd-euhk/Antigravity-Manager"
 $AppName = "Antigravity Tools"
 $GithubApi = "https://api.github.com/repos/$Repo/releases"
 $script:ReleaseVersion = ""
@@ -85,7 +85,7 @@ function Get-ReleaseVersion {
     }
 
     Script-Error "Failed to determine latest version. Try specifying version manually:"
-    Write-Host '  $Version = "4.1.15"; irm https://raw.githubusercontent.com/lbjlaq/Antigravity-Manager/main/install.ps1 | iex' -ForegroundColor Yellow
+    Write-Host '  $Version = "4.1.15"; irm https://raw.githubusercontent.com/nd-euhk/Antigravity-Manager/main/install.ps1 | iex' -ForegroundColor Yellow
     return $false
 }
 

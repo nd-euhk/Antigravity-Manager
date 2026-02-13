@@ -3,7 +3,7 @@
 # 关闭已集成到 v4.0.3 的 PR 脚本
 # 使用前请确保已安装并登录 GitHub CLI: brew install gh && gh auth login
 
-REPO="lbjlaq/Antigravity-Manager"
+REPO="nd-euhk/Antigravity-Manager"
 VERSION="v4.0.3"
 
 # 感谢消息模板
@@ -40,8 +40,8 @@ PRS_LIST=(
     "822|Koshikai|[Japanese] Add missing translations and refine terminology",
     "798|vietnhatthai|[Translation Fix] Correct spelling error in Vietnamese settings",
     "846|lengjingxu|[核心功能] 客户端热更新与 Token 统计系统",
-    "949|lbjlaq|Streaming chunks order fix",
-    "950|lbjlaq|[Fix] Remove redundant code and update README",
+    "949|nd-euhk|Streaming chunks order fix",
+    "950|nd-euhk|[Fix] Remove redundant code and update README",
     "973|Mag1cFall|fix: 修复 Windows 平台启动参数不生效的问题"
 )
 

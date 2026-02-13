@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Antigravity Tools Install Script (Linux + macOS)
-# Usage: curl -fsSL https://raw.githubusercontent.com/lbjlaq/Antigravity-Manager/main/install.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/nd-euhk/Antigravity-Manager/main/install.sh | bash
 #
 # Environment variables:
 #   VERSION     - Install specific version (e.g., "4.1.15"), default: latest
@@ -15,9 +15,9 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-REPO="lbjlaq/Antigravity-Manager"
+REPO="nd-euhk/Antigravity-Manager"
 APP_NAME="Antigravity Tools"
-APP_ID="com.lbjlaq.antigravity-tools"
+APP_ID="com.nd-euhk.antigravity-tools"
 GITHUB_API="https://api.github.com/repos/${REPO}/releases"
 
 # Helper functions

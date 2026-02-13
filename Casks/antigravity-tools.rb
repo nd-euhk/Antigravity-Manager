@@ -4,18 +4,18 @@ cask "antigravity-tools" do
 
   name "Antigravity Tools"
   desc "Professional Account Management for AI Services"
-  homepage "https://github.com/lbjlaq/Antigravity-Manager"
+  homepage "https://github.com/nd-euhk/Antigravity-Manager"
 
   on_macos do
-    url "https://github.com/lbjlaq/Antigravity-Manager/releases/download/v#{version}/Antigravity.Tools_#{version}_universal.dmg"
+    url "https://github.com/nd-euhk/Antigravity-Manager/releases/download/v#{version}/Antigravity.Tools_#{version}_universal.dmg"
 
     app "Antigravity Tools.app"
 
     zap trash: [
-      "~/Library/Application Support/com.lbjlaq.antigravity-tools",
-      "~/Library/Caches/com.lbjlaq.antigravity-tools",
-      "~/Library/Preferences/com.lbjlaq.antigravity-tools.plist",
-      "~/Library/Saved Application State/com.lbjlaq.antigravity-tools.savedState",
+      "~/Library/Application Support/com.nd-euhk.antigravity-tools",
+      "~/Library/Caches/com.nd-euhk.antigravity-tools",
+      "~/Library/Preferences/com.nd-euhk.antigravity-tools.plist",
+      "~/Library/Saved Application State/com.nd-euhk.antigravity-tools.savedState",
     ]
 
     caveats <<~EOS
@@ -30,7 +30,7 @@ cask "antigravity-tools" do
   on_linux do
     arch arm: "aarch64", intel: "amd64"
 
-    url "https://github.com/lbjlaq/Antigravity-Manager/releases/download/v#{version}/Antigravity.Tools_#{version}_#{arch}.AppImage"
+    url "https://github.com/nd-euhk/Antigravity-Manager/releases/download/v#{version}/Antigravity.Tools_#{version}_#{arch}.AppImage"
     binary "Antigravity.Tools_#{version}_#{arch}.AppImage", target: "antigravity-tools"
 
     preflight do

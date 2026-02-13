@@ -7,7 +7,7 @@
   <p>不仅仅是账号管理，更是打破 API 调用壁垒的终极解决方案。</p>
   
   <p>
-    <a href="https://github.com/lbjlaq/Antigravity-Manager">
+    <a href="https://github.com/nd-euhk/Antigravity-Manager">
       <img src="https://img.shields.io/badge/Version-4.1.16-blue?style=flat-square" alt="Version">
     </a>
     <img src="https://img.shields.io/badge/Tauri-v2-orange?style=flat-square" alt="Tauri">
@@ -120,7 +120,7 @@ graph TD
 
 ```bash
 # 1. 订阅本仓库的 Tap
-brew tap lbjlaq/antigravity-manager https://github.com/lbjlaq/Antigravity-Manager
+brew tap nd-euhk/antigravity-manager https://github.com/nd-euhk/Antigravity-Manager
 
 # 2. 安装应用
 brew install --cask antigravity-tools
@@ -132,12 +132,12 @@ brew install --cask antigravity-tools
 
 **方式 1：一键安装脚本 (推荐)**
 ```bash
-curl -sSL https://raw.githubusercontent.com/lbjlaq/Antigravity-Manager/main/deploy/arch/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/nd-euhk/Antigravity-Manager/main/deploy/arch/install.sh | bash
 ```
 
 **方式 2：通过 Homebrew** (如果您已安装 [Linuxbrew](https://sh.brew.sh/))
 ```bash
-brew tap lbjlaq/antigravity-manager https://github.com/lbjlaq/Antigravity-Manager
+brew tap nd-euhk/antigravity-manager https://github.com/nd-euhk/Antigravity-Manager
 brew install --cask antigravity-tools
 ```
 
@@ -145,7 +145,7 @@ brew install --cask antigravity-tools
 安装后会自动将 AppImage 添加到二进制路径并配置可执行权限。
 
 ### 选项 B: 手动下载
-前往 [GitHub Releases](https://github.com/lbjlaq/Antigravity-Manager/releases) 下载对应系统的包：
+前往 [GitHub Releases](https://github.com/nd-euhk/Antigravity-Manager/releases) 下载对应系统的包：
 *   **macOS**: `.dmg` (支持 Apple Silicon & Intel)
 *   **Windows**: `.msi` 或 便携版 `.zip`
 *   **Linux**: `.deb` 或 `AppImage`
@@ -163,7 +163,7 @@ docker run -d --name antigravity-manager \
   -e WEB_PASSWORD=your-login-password \
   -e ABV_MAX_BODY_SIZE=104857600 \
   -v ~/.antigravity_tools:/root/.antigravity_tools \
-  lbjlaq/antigravity-manager:latest
+  nd-euhk/antigravity-manager:latest
 
 # 忘记密钥？执行 docker logs antigravity-manager 或 grep -E '"api_key"|"admin_password"' ~/.antigravity_tools/gui_config.json
 
@@ -203,7 +203,7 @@ docker compose up -d
 
 ---
 
-Copyright © 2024-2026 [lbjlaq](https://github.com/lbjlaq)
+Copyright © 2024-2026 [nd-euhk](https://github.com/nd-euhk)
 
 ### 🛠️ 常见问题排查 (Troubleshooting)
 
@@ -1628,7 +1628,7 @@ response = client.chat.completions.create(
             - **自动降级网关**: 在单条消息内，一旦出现非思维内容，后续思维块自动降级为文本，确保协议合规。
             - **合并后二次重排**: 在 Assistant 消息合并逻辑后增加强制重排序，堵死因消息拼接导致的排序漏洞。
     *   **v3.3.32 (2026-01-15)**:
-        - **核心调度与稳定性优化 (Fix Issue #630, #631 - 核心致谢 @lbjlaq PR #640)**:
+        - **核心调度与稳定性优化 (Fix Issue #630, #631 - 核心致谢 @nd-euhk PR #640)**:
             - **配额漏洞与绕过修复**: 解决了在高并发或特定重试场景下，配额保护机制可能被绕过的潜在漏洞。
             - **限流 Key 匹配优化**: 增强了 `TokenManager` 中限流记录的匹配精准度，解决了在多实例或复杂网络环境下可能出现的速率限制判定不一致问题。
             - **账号禁用逻辑加固**: 修复了手动禁用账号在某些缓存生命周期内未立即从调度池中剥离的问题，确保“禁用即生效”。
@@ -2072,7 +2072,7 @@ response = client.chat.completions.create(
                 - 添加信号量控制,限制最大并发数为 5,避免 API 限流和数据库写入冲突
                 - 10 个账号刷新耗时从 ~30s 降低至 ~6s (提升约 5 倍)
                 - 添加性能监控日志,实时显示刷新耗时
-                - 感谢 [@Mag1cFall](https://github.com/Mag1cFall) 提供的优化方案 ([#354](https://github.com/lbjlaq/Antigravity-Manager/pull/354))
+                - 感谢 [@Mag1cFall](https://github.com/Mag1cFall) 提供的优化方案 ([#354](https://github.com/nd-euhk/Antigravity-Manager/pull/354))
         - **UI 视觉设计优化 (核心致谢 @Mag1cFall PR #353 + @AmbitionsXXXV PR #371)**:
             - **API 代理页面视觉改进**:
                 - **柔化禁用状态遮罩**: 将禁用卡片的遮罩从 `bg-white/60` 改为 `bg-gray-100/40`,移除模糊效果,提升可读性。
@@ -2475,7 +2475,7 @@ response = client.chat.completions.create(
     </details>
 ## 👥 核心贡献者 (Contributors)
 
-<a href="https://github.com/lbjlaq"><img src="https://github.com/lbjlaq.png" width="50px" style="border-radius: 50%;" alt="lbjlaq"/></a>
+<a href="https://github.com/nd-euhk"><img src="https://github.com/nd-euhk.png" width="50px" style="border-radius: 50%;" alt="nd-euhk"/></a>
 <a href="https://github.com/XinXin622"><img src="https://github.com/XinXin622.png" width="50px" style="border-radius: 50%;" alt="XinXin622"/></a>
 <a href="https://github.com/llsenyue"><img src="https://github.com/llsenyue.png" width="50px" style="border-radius: 50%;" alt="llsenyue"/></a>
 <a href="https://github.com/salacoste"><img src="https://github.com/salacoste.png" width="50px" style="border-radius: 50%;" alt="salacoste"/></a>

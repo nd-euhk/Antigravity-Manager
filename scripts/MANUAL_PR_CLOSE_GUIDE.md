@@ -20,9 +20,9 @@
 
 点击以下链接访问对应的 PR：
 
-- https://github.com/lbjlaq/Antigravity-Manager/pull/825
-- https://github.com/lbjlaq/Antigravity-Manager/pull/822
-- https://github.com/lbjlaq/Antigravity-Manager/pull/798
+- https://github.com/nd-euhk/Antigravity-Manager/pull/825
+- https://github.com/nd-euhk/Antigravity-Manager/pull/822
+- https://github.com/nd-euhk/Antigravity-Manager/pull/798
 
 ### 2. 添加感谢评论
 
@@ -71,4 +71,4 @@ Thank you again for your support of the Antigravity Tools project!
 
 完成后，访问以下链接确认所有 PR 已关闭：
 
-https://github.com/lbjlaq/Antigravity-Manager/pulls?q=is%3Apr+is%3Aclosed
+https://github.com/nd-euhk/Antigravity-Manager/pulls?q=is%3Apr+is%3Aclosed

@@ -3,9 +3,9 @@ use std::time::{SystemTime, UNIX_EPOCH};
 use crate::modules::logger;
 use chrono::Utc;
 
-const GITHUB_API_URL: &str = "https://api.github.com/repos/lbjlaq/Antigravity-Manager/releases/latest";
-const GITHUB_RAW_URL: &str = "https://raw.githubusercontent.com/lbjlaq/Antigravity-Manager/main/package.json";
-const JSDELIVR_URL: &str = "https://cdn.jsdelivr.net/gh/lbjlaq/Antigravity-Manager@main/package.json";
+const GITHUB_API_URL: &str = "https://api.github.com/repos/nd-euhk/Antigravity-Manager/releases/latest";
+const GITHUB_RAW_URL: &str = "https://raw.githubusercontent.com/nd-euhk/Antigravity-Manager/main/package.json";
+const JSDELIVR_URL: &str = "https://cdn.jsdelivr.net/gh/nd-euhk/Antigravity-Manager@main/package.json";
 const CURRENT_VERSION: &str = env!("CARGO_PKG_VERSION");
 const DEFAULT_CHECK_INTERVAL_HOURS: u64 = 24;
 
@@ -179,7 +179,7 @@ async fn check_static_url(url: &str, source_name: &str) -> Result<UpdateInfo, St
     }
 
     // fallback sources generally don't provide release notes or download specific URL, construct generic
-    let download_url = "https://github.com/lbjlaq/Antigravity-Manager/releases/latest".to_string();
+    let download_url = "https://github.com/nd-euhk/Antigravity-Manager/releases/latest".to_string();
     let release_notes = format!("New version detected via {}. Please check release page for details.", source_name);
 
     Ok(UpdateInfo {

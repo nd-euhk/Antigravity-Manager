@@ -8,7 +8,7 @@
 
 1. **启动应用**：
    ```bash
-   cd /Users/lbjlaq/Desktop/xin
+   cd /Users/nd-euhk/Desktop/xin
    npm run tauri dev
    ```
 
@@ -341,4 +341,4 @@ tail -100 ~/Library/Application\ Support/com.antigravity.tools/logs/antigravity.
 ## 联系方式
 
 如有问题，请在 GitHub 提 Issue：
-https://github.com/lbjlaq/Antigravity-Manager/issues
+https://github.com/nd-euhk/Antigravity-Manager/issues
