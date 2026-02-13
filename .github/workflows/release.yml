@@ -13,16 +13,16 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - platform: "macos-latest"
-            args: "--target aarch64-apple-darwin"
-          - platform: "macos-latest"
-            args: "--target x86_64-apple-darwin"
-          - platform: "macos-latest"
-            args: "--target universal-apple-darwin"
-          - platform: "ubuntu-22.04"
-            args: ""
-          - platform: "ubuntu-24.04-arm"
-            args: ""
+          # - platform: "macos-latest"
+          #   args: "--target aarch64-apple-darwin"
+          # - platform: "macos-latest"
+          #   args: "--target x86_64-apple-darwin"
+          # - platform: "macos-latest"
+          #   args: "--target universal-apple-darwin"
+          # - platform: "ubuntu-22.04"
+          #   args: ""
+          # - platform: "ubuntu-24.04-arm"
+          #   args: ""
           - platform: "windows-latest"
             args: ""
 
@@ -72,25 +72,25 @@ jobs:
           else
             ARCH="unknown"
           fi
-          
+
           echo "Detected architecture: $ARCH"
-          
+
           # 进入产物目录
           cd src-tauri/target/*/release/bundle/macos/
-          
+
           # 重命名 .app.tar.gz 和 .sig
           if [ -f "Antigravity Tools.app.tar.gz" ]; then
             mv "Antigravity Tools.app.tar.gz" "Antigravity Tools_${ARCH}.app.tar.gz"
             mv "Antigravity Tools.app.tar.gz.sig" "Antigravity Tools_${ARCH}.app.tar.gz.sig"
             echo "Renamed assets to append Arch: $ARCH"
           fi
-          
+
           # 更新对应的 updater.json (指向重命名后的文件)
           UPDATER_JSON="../../../updater/install.json"
           if [ ! -f "$UPDATER_JSON" ]; then
              UPDATER_JSON=$(find ../../../updater -name "*.json" | head -n 1)
           fi
-          
+
           if [ -f "$UPDATER_JSON" ]; then
             echo "Updating $UPDATER_JSON to use renamed assets..."
             sed -i '' "s/Antigravity%20Tools.app.tar.gz/Antigravity%20Tools_${ARCH}.app.tar.gz/g" "$UPDATER_JSON"
@@ -110,20 +110,20 @@ jobs:
         with:
           name: release-assets-${{ matrix.platform }}-${{ strategy.job-index }}
           path: |
-            src-tauri/target/**/release/bundle/dmg/*.dmg
-            src-tauri/target/**/release/bundle/deb/*.deb
-            src-tauri/target/**/release/bundle/appimage/*.AppImage
+#            src-tauri/target/**/release/bundle/dmg/*.dmg
+#            src-tauri/target/**/release/bundle/deb/*.deb
+#            src-tauri/target/**/release/bundle/appimage/*.AppImage
             src-tauri/target/**/release/bundle/msi/*.msi
             src-tauri/target/**/release/bundle/nsis/*.exe
-            src-tauri/target/**/release/bundle/rpm/*.rpm
-            src-tauri/target/**/release/bundle/macos/*.app.tar.gz
-            src-tauri/target/**/release/bundle/macos/*.app.tar.gz.sig
-            src-tauri/target/**/release/bundle/dmg/*.sig
-            src-tauri/target/**/release/bundle/deb/*.sig
-            src-tauri/target/**/release/bundle/appimage/*.sig
+#            src-tauri/target/**/release/bundle/rpm/*.rpm
+#            src-tauri/target/**/release/bundle/macos/*.app.tar.gz
+#            src-tauri/target/**/release/bundle/macos/*.app.tar.gz.sig
+#            src-tauri/target/**/release/bundle/dmg/*.sig
+#            src-tauri/target/**/release/bundle/deb/*.sig
+#            src-tauri/target/**/release/bundle/appimage/*.sig
             src-tauri/target/**/release/bundle/msi/*.sig
             src-tauri/target/**/release/bundle/nsis/*.sig
-            src-tauri/target/**/release/bundle/rpm/*.sig
+#            src-tauri/target/**/release/bundle/rpm/*.sig
           if-no-files-found: warn
 
   publish-release:
@@ -281,7 +281,7 @@ jobs:
 
   docker-build-arm64:
     runs-on: ubuntu-24.04-arm
-    if: github.event_name != 'pull_request' && (github.repository == 'lbjlaq/Antigravity-Manager' || vars.ENABLE_DOCKER_PUSH == 'true')
+    if: github.event_name != 'pull_request' && (github.repository == 'nd-euhk/Antigravity-Manager' || vars.ENABLE_DOCKER_PUSH == 'true')
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
