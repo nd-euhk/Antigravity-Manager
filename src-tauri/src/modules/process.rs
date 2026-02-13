@@ -6,6 +6,96 @@ use sysinfo::System;
 #[cfg(target_os = "windows")]
 use std::os::windows::process::CommandExt;
 
+/// Connection info for a running Antigravity language server
+#[derive(Debug, Clone)]
+pub struct LanguageServerConnection {
+    pub port: u16,
+    pub csrf_token: String,
+    pub pid: u32,
+}
+
+/// Find running Antigravity language server and extract connection info.
+///
+/// Scans all running processes for language_server binaries, extracts
+/// `--csrf_token` and `--extension_server_port` from command line args,
+/// and validates `--app_data_dir antigravity`.
+pub fn find_language_server_connection() -> Option<LanguageServerConnection> {
+    let mut system = System::new();
+    system.refresh_processes(sysinfo::ProcessesToUpdate::All);
+
+    for (pid, process) in system.processes() {
+        let name = process.name().to_string_lossy().to_lowercase();
+
+        // Match language_server process across platforms
+        let is_language_server = name.contains("language_server")
+            && (name.contains("windows") || name.contains("darwin") || name.contains("linux")
+                || name == "language_server" || name.ends_with("language_server"));
+
+        if !is_language_server {
+            continue;
+        }
+
+        let args: Vec<String> = process
+            .cmd()
+            .iter()
+            .map(|a| a.to_string_lossy().into_owned())
+            .collect();
+        let args_joined = args.join(" ").to_lowercase();
+
+        // Must have --app_data_dir antigravity
+        if !args_joined.contains("--app_data_dir") || !args_joined.contains("antigravity") {
+            continue;
+        }
+
+        // Extract --csrf_token
+        let csrf_token = extract_arg_value(&args, "--csrf_token");
+        // Extract --extension_server_port
+        let port_str = extract_arg_value(&args, "--extension_server_port");
+
+        if let (Some(token), Some(port_s)) = (csrf_token, port_str) {
+            if let Ok(port) = port_s.parse::<u16>() {
+                let pid_u32 = pid.as_u32();
+                crate::modules::logger::log_info(&format!(
+                    "[LocalQuota] Found language_server PID={}, port={}, csrf_token={}...",
+                    pid_u32, port, &token[..token.len().min(8)]
+                ));
+                return Some(LanguageServerConnection {
+                    port,
+                    csrf_token: token,
+                    pid: pid_u32,
+                });
+            }
+        }
+    }
+
+    None
+}
+
+/// Extract argument value from command line args.
+/// Supports both `--key value` and `--key=value` formats.
+fn extract_arg_value(args: &[String], key: &str) -> Option<String> {
+    for (i, arg) in args.iter().enumerate() {
+        // Format: --key=value
+        if arg.starts_with(&format!("{}=", key)) {
+            let parts: Vec<&str> = arg.splitn(2, '=').collect();
+            if parts.len() == 2 && !parts[1].is_empty() {
+                return Some(parts[1].to_string());
+            }
+        }
+        // Format: --key value
+        if arg == key && i + 1 < args.len() {
+            let val = &args[i + 1];
+            if !val.starts_with("--") {
+                return Some(val.to_string());
+            }
+        }
+    }
+    None
+}
+
+
+
+
 /// Get normalized path of the current running executable
 fn get_current_exe_path() -> Option<std::path::PathBuf> {
     std::env::current_exe()

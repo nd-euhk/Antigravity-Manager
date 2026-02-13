@@ -18,6 +18,9 @@ pub struct QuotaData {
     /// 订阅等级 (FREE/PRO/ULTRA)
     #[serde(default)]
     pub subscription_tier: Option<String>,
+    /// Nguồn dữ liệu quota: "local", "google", "cache"
+    #[serde(default)]
+    pub quota_source: Option<String>,
 }
 
 impl QuotaData {
@@ -27,6 +30,7 @@ impl QuotaData {
             last_updated: chrono::Utc::now().timestamp(),
             is_forbidden: false,
             subscription_tier: None,
+            quota_source: None,
         }
     }
 

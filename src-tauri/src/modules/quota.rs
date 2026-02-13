@@ -3,6 +3,8 @@ use serde::{Deserialize, Serialize};
 use serde_json::json;
 use crate::models::QuotaData;
 use crate::modules::config;
+use std::collections::HashMap;
+use std::sync::Mutex;
 
 const QUOTA_API_URL: &str = "https://daily-cloudcode-pa.sandbox.googleapis.com/v1internal:fetchAvailableModels";
 
@@ -10,6 +12,8 @@ const QUOTA_API_URL: &str = "https://daily-cloudcode-pa.sandbox.googleapis.com/v
 const NEAR_READY_THRESHOLD: i32 = 95;
 const MAX_RETRIES: u32 = 3;
 const RETRY_DELAY_SECS: u64 = 30;
+
+// ============ Google API Data Structures ============
 
 #[derive(Debug, Serialize, Deserialize)]
 struct QuotaResponse {
@@ -52,7 +56,137 @@ struct Tier {
     slug: Option<String>,
 }
 
-/// Get shared HTTP Client (15s timeout)
+// ============ Local Language Server API Data Structures ============
+
+/// Response from /exa.language_server_pb.LanguageServerService/GetUserStatus
+#[derive(Debug, Deserialize)]
+struct LocalUserStatusResponse {
+    #[serde(rename = "userStatus")]
+    user_status: Option<LocalUserStatus>,
+    /// Server error message (if any)
+    message: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+struct LocalUserStatus {
+    email: Option<String>,
+    #[serde(rename = "cascadeModelConfigData")]
+    cascade_model_config_data: Option<CascadeModelConfigData>,
+    #[serde(rename = "planStatus")]
+    plan_status: Option<LocalPlanStatus>,
+    #[serde(rename = "userTier")]
+    user_tier: Option<LocalUserTier>,
+}
+
+#[derive(Debug, Deserialize)]
+struct LocalUserTier {
+    name: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+struct LocalPlanStatus {
+    #[serde(rename = "planInfo")]
+    plan_info: Option<LocalPlanInfo>,
+}
+
+#[derive(Debug, Deserialize)]
+struct LocalPlanInfo {
+    #[serde(rename = "planName")]
+    plan_name: Option<String>,
+    #[serde(rename = "teamsTier")]
+    teams_tier: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+struct CascadeModelConfigData {
+    #[serde(rename = "clientModelConfigs", default)]
+    client_model_configs: Vec<ClientModelConfig>,
+}
+
+#[derive(Debug, Deserialize)]
+struct ClientModelConfig {
+    label: Option<String>,
+    #[serde(rename = "quotaInfo")]
+    quota_info: Option<LocalModelQuotaInfo>,
+    #[serde(rename = "modelOrAlias")]
+    model_or_alias: Option<ModelOrAlias>,
+}
+
+#[derive(Debug, Deserialize)]
+struct ModelOrAlias {
+    model: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+struct LocalModelQuotaInfo {
+    #[serde(rename = "remainingFraction")]
+    remaining_fraction: Option<f64>,
+    #[serde(rename = "resetTime")]
+    reset_time: Option<String>,
+}
+
+// ============ File-based Quota Cache ============
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct CachedQuota {
+    data: QuotaData,
+    project_id: Option<String>,
+    fetched_at: i64,
+}
+
+/// In-memory copy of the file cache, loaded once at startup
+static QUOTA_CACHE: std::sync::LazyLock<Mutex<HashMap<String, CachedQuota>>> =
+    std::sync::LazyLock::new(|| {
+        let cache = load_cache_from_disk().unwrap_or_default();
+        Mutex::new(cache)
+    });
+
+fn get_cache_file_path() -> Result<std::path::PathBuf, String> {
+    let data_dir = crate::modules::account::get_data_dir()?;
+    Ok(data_dir.join("quota_cache.json"))
+}
+
+fn load_cache_from_disk() -> Result<HashMap<String, CachedQuota>, String> {
+    let path = get_cache_file_path()?;
+    if !path.exists() {
+        return Ok(HashMap::new());
+    }
+    let content = std::fs::read_to_string(&path)
+        .map_err(|e| format!("Failed to read quota cache: {}", e))?;
+    serde_json::from_str(&content)
+        .map_err(|e| format!("Failed to parse quota cache: {}", e))
+}
+
+fn save_cache_to_disk(cache: &HashMap<String, CachedQuota>) {
+    if let Ok(path) = get_cache_file_path() {
+        if let Ok(json) = serde_json::to_string_pretty(cache) {
+            if let Err(e) = std::fs::write(&path, json) {
+                crate::modules::logger::log_warn(&format!(
+                    "[QuotaCache] Failed to write cache file: {}", e
+                ));
+            }
+        }
+    }
+}
+
+fn get_cached_quota(email: &str) -> Option<CachedQuota> {
+    QUOTA_CACHE.lock().ok()?.get(email).cloned()
+}
+
+fn set_cached_quota(email: &str, data: QuotaData, project_id: Option<String>) {
+    if let Ok(mut cache) = QUOTA_CACHE.lock() {
+        cache.insert(email.to_string(), CachedQuota {
+            data,
+            project_id,
+            fetched_at: chrono::Utc::now().timestamp(),
+        });
+        save_cache_to_disk(&cache);
+    }
+}
+
+// ============ HTTP Clients ============
+
+/// Get shared HTTP Client (15s timeout) for Google API
 async fn create_client(account_id: Option<&str>) -> reqwest::Client {
     if let Some(pool) = crate::proxy::proxy_pool::get_global_proxy_pool() {
         pool.get_effective_client(account_id, 15).await
@@ -70,6 +204,18 @@ async fn create_warmup_client(account_id: Option<&str>) -> reqwest::Client {
         crate::utils::http::get_long_client()
     }
 }
+
+/// Create HTTPS client for local language_server (self-signed cert)
+fn create_local_https_client() -> reqwest::Client {
+    reqwest::Client::builder()
+        .timeout(std::time::Duration::from_secs(10))
+        .danger_accept_invalid_certs(true)
+        .no_proxy()
+        .build()
+        .unwrap_or_else(|_| reqwest::Client::new())
+}
+
+// ============ Google API Functions ============
 
 const CLOUD_CODE_BASE_URL: &str = "https://daily-cloudcode-pa.sandbox.googleapis.com";
 
@@ -120,13 +266,189 @@ async fn fetch_project_id(access_token: &str, email: &str, account_id: Option<&s
     (None, None)
 }
 
+// ============ Local Language Server API Functions ============
+
+const LOCAL_API_ENDPOINT: &str = "/exa.language_server_pb.LanguageServerService/GetUserStatus";
+
+/// Fetch quota from local Antigravity language_server
+async fn fetch_quota_local(
+    conn: &crate::modules::process::LanguageServerConnection,
+) -> Result<(QuotaData, Option<String>), String> {
+    let client = create_local_https_client();
+    let url = format!("https://127.0.0.1:{}{}", conn.port, LOCAL_API_ENDPOINT);
+
+    let payload = json!({
+        "metadata": {
+            "ideName": "antigravity",
+            "extensionName": "antigravity",
+            "locale": "en"
+        }
+    });
+
+    let response = client
+        .post(&url)
+        .header("Content-Type", "application/json")
+        .header("Connect-Protocol-Version", "1")
+        .header("X-Codeium-Csrf-Token", &conn.csrf_token)
+        .json(&payload)
+        .send()
+        .await
+        .map_err(|e| format!("Local API request failed: {}", e))?;
+
+    if !response.status().is_success() {
+        return Err(format!("Local API returned HTTP {}", response.status()));
+    }
+
+    let body = response
+        .text()
+        .await
+        .map_err(|e| format!("Failed to read local API response: {}", e))?;
+
+    if body.trim().is_empty() {
+        return Err("Local API returned empty response".to_string());
+    }
+
+    let parsed: LocalUserStatusResponse = serde_json::from_str(&body)
+        .map_err(|e| format!("Failed to parse local API response: {} (body: {})", e, &body[..body.len().min(200)]))?;
+
+    if let Some(ref msg) = parsed.message {
+        if !msg.is_empty() {
+            return Err(format!("Local API error: {}", msg));
+        }
+    }
+
+    let user_status = parsed.user_status
+        .ok_or("Local API response missing userStatus")?;
+
+    let email = user_status.email.clone();
+
+    // Parse model quota data
+    let mut quota_data = QuotaData::new();
+    quota_data.quota_source = Some("local".to_string());
+
+    // Extract subscription tier from local response
+    let tier = user_status.user_tier
+        .and_then(|t| t.name)
+        .or_else(|| {
+            user_status.plan_status
+                .and_then(|ps| ps.plan_info)
+                .and_then(|pi| pi.teams_tier.or(pi.plan_name))
+        });
+    quota_data.subscription_tier = tier;
+
+    // Parse models from cascadeModelConfigData
+    if let Some(config_data) = user_status.cascade_model_config_data {
+        for config in config_data.client_model_configs {
+            if let Some(qi) = config.quota_info {
+                let name = config.label
+                    .or_else(|| config.model_or_alias.and_then(|m| m.model))
+                    .unwrap_or_else(|| "unknown".to_string());
+
+                let percentage = qi.remaining_fraction
+                    .map(|f| (f * 100.0) as i32)
+                    .unwrap_or(0);
+
+                let reset_time = qi.reset_time.unwrap_or_default();
+
+                quota_data.add_model(name, percentage, reset_time);
+            }
+        }
+    }
+
+    tracing::debug!(
+        "[LocalQuota] Fetched {} models from local API (email: {:?})",
+        quota_data.models.len(),
+        email
+    );
+
+    Ok((quota_data, email))
+}
+
+// ============ Unified Fetch Functions ============
+
 /// Unified entry point for fetching account quota
 pub async fn fetch_quota(access_token: &str, email: &str, account_id: Option<&str>) -> crate::error::AppResult<(QuotaData, Option<String>)> {
     fetch_quota_with_cache(access_token, email, None, account_id).await
 }
 
-/// Fetch quota with cache support
+/// Fetch quota with hybrid strategy:
+/// 1. If cache exists → try local API → fallback to cache
+/// 2. If no cache → Google API → save cache
 pub async fn fetch_quota_with_cache(
+    access_token: &str,
+    email: &str,
+    cached_project_id: Option<&str>,
+    account_id: Option<&str>,
+) -> crate::error::AppResult<(QuotaData, Option<String>)> {
+    use crate::error::AppError;
+
+    // Step 1: Check file cache
+    let cached = get_cached_quota(email);
+
+    if let Some(ref cached_entry) = cached {
+        // Cache exists → try local API first
+        if let Some(conn) = crate::modules::process::find_language_server_connection() {
+            match fetch_quota_local(&conn).await {
+                Ok((mut quota_data, local_email)) => {
+                    // Verify email matches (local server may be logged into different account)
+                    let email_matches = local_email
+                        .as_ref()
+                        .map(|e| e.to_lowercase() == email.to_lowercase())
+                        .unwrap_or(false);
+
+                    if email_matches {
+                        crate::modules::logger::log_info(&format!(
+                            "✅ [{}] Quota fetched from local language_server ({} models)",
+                            email, quota_data.models.len()
+                        ));
+                        // Preserve cached project_id since local API doesn't provide it
+                        let pid = cached_entry.project_id.clone();
+                        quota_data.subscription_tier = quota_data.subscription_tier
+                            .or_else(|| cached_entry.data.subscription_tier.clone());
+                        set_cached_quota(email, quota_data.clone(), pid.clone());
+                        return Ok((quota_data, pid));
+                    } else {
+                        crate::modules::logger::log_info(&format!(
+                            "[LocalQuota] Email mismatch: local={:?}, requested={}. Using cache.",
+                            local_email, email
+                        ));
+                    }
+                }
+                Err(e) => {
+                    crate::modules::logger::log_warn(&format!(
+                        "[LocalQuota] Local API failed for {}: {}. Using cache.", email, e
+                    ));
+                }
+            }
+        } else {
+            tracing::debug!("[LocalQuota] Language server not found. Using cache for {}", email);
+        }
+
+        // Local API unavailable or failed → return cached data
+        let mut cached_data = cached_entry.data.clone();
+        cached_data.quota_source = Some("cache".to_string());
+        crate::modules::logger::log_info(&format!(
+            "📦 [{}] Using cached quota ({} models, cached at {})",
+            email, cached_data.models.len(), cached_entry.fetched_at
+        ));
+        return Ok((cached_data, cached_entry.project_id.clone()));
+    }
+
+    // Step 2: No cache exists → Google API (first-time login)
+    crate::modules::logger::log_info(&format!(
+        "🌐 [{}] No cached quota found, fetching from Google API (first-time)...", email
+    ));
+
+    let result = fetch_quota_from_google(access_token, email, cached_project_id, account_id).await?;
+    
+    // Save to file cache
+    set_cached_quota(email, result.0.clone(), result.1.clone());
+    
+    Ok(result)
+}
+
+/// Fetch quota directly from Google API (original logic preserved)
+async fn fetch_quota_from_google(
     access_token: &str,
     email: &str,
     cached_project_id: Option<&str>,
@@ -173,6 +495,7 @@ pub async fn fetch_quota_with_cache(
                         let mut q = QuotaData::new();
                         q.is_forbidden = true;
                         q.subscription_tier = subscription_tier.clone();
+                        q.quota_source = Some("google".to_string());
                         return Ok((q, project_id.clone()));
                     }
                     
@@ -195,6 +518,7 @@ pub async fn fetch_quota_with_cache(
                     .map_err(|e| AppError::Network(e))?;
                 
                 let mut quota_data = QuotaData::new();
+                quota_data.quota_source = Some("google".to_string());
                 
                 // Use debug level for detailed info to avoid console noise
                 tracing::debug!("Quota API returned {} models", quota_response.models.len());
