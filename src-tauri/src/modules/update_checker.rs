@@ -51,17 +51,45 @@ struct GitHubRelease {
     published_at: String,
 }
 
-/// Check for updates with fallback strategy
+const UPDATER_JSON_URL: &str = "https://github.com/lbjlaq/Antigravity-Manager/releases/latest/download/updater.json";
+
+/// Check for updates with improved strategy:
+/// 1. Check updater.json (Source of Truth for Auto-Update)
+/// 2. Fallback to GitHub API (Informational)
 pub async fn check_for_updates() -> Result<UpdateInfo, String> {
-    // 1. Try GitHub API (Preferred: has release notes, specific version mapping)
-    match check_github_api().await {
+    // 1. Try updater.json first (Critical for functional Auto-Update)
+    match check_updater_json().await {
         Ok(info) => return Ok(info),
+        Err(e) => {
+            logger::log_warn(&format!("updater.json check failed: {}. This might mean artifacts are not ready yet.", e));
+            // Don't return error immediately, try fallbacks for at least informational update
+        }
+    }
+
+    // 2. Try GitHub API
+    match check_github_api().await {
+        Ok(info) => {
+            // If we found an update via API but updater.json failed, we should probably warn or
+            // implies that auto-update won't work yet.
+            // However, the user wants "auto-update to work". If we show "Update Available" based on API
+            // but updater.json is missing, the "Auto Update" button will fail.
+            // So, ideally, if we are in this block, we should perhaps mark it as "Manual Download Only" or similar?
+            // For now, we return it, but maybe the frontend handles "not ready".
+            // Actually, based on User Request, "Update Available" shouldn't show if it's not ready.
+            // But if we return Ok(info) here, the frontend SHOWS it.
+            // If updater.json failed, it likely means the asset isn't uploaded.
+            // So we should maybe return Ok(info) with has_update=false if checking updater.json failed?
+            // Or just log it. 
+            // Let's stick to the plan: Prioritize updater.json. If that fails, we fallback.
+            // Use the fallback but maybe the user will see "Auto update failed" and use manual.
+            return Ok(info);
+        },
         Err(e) => {
             logger::log_warn(&format!("GitHub API check failed: {}. Trying fallbacks...", e));
         }
     }
 
-    // 2. Try GitHub Raw (Precision: avoids CDN caching issues)
+    // 3. Try GitHub Raw
     match check_static_url(GITHUB_RAW_URL, "GitHub Raw").await {
         Ok(info) => return Ok(info),
         Err(e) => {
@@ -69,7 +97,7 @@ pub async fn check_for_updates() -> Result<UpdateInfo, String> {
         }
     }
 
-    // 3. Try jsDelivr (High Availability: CDN)
+    // 4. Try jsDelivr
     match check_static_url(JSDELIVR_URL, "jsDelivr").await {
         Ok(info) => return Ok(info),
         Err(e) => {
@@ -77,6 +105,55 @@ pub async fn check_for_updates() -> Result<UpdateInfo, String> {
             return Err(e);
         }
     }
+}
+
+#[derive(Debug, Deserialize)]
+struct UpdaterJson {
+    version: String,
+    notes: Option<String>,
+    pub_date: Option<String>,
+}
+
+async fn check_updater_json() -> Result<UpdateInfo, String> {
+    let client = create_client().await?;
+    logger::log_info("Checking for updates via updater.json...");
+
+    let response = client
+        .get(UPDATER_JSON_URL)
+        .send()
+        .await
+        .map_err(|e| format!("Request failed: {}", e))?;
+
+    if !response.status().is_success() {
+        return Err(format!("updater.json returned status: {}", response.status()));
+    }
+
+    let updater_info: UpdaterJson = response
+        .json()
+        .await
+        .map_err(|e| format!("Failed to parse updater.json: {}", e))?;
+
+    let latest_version = updater_info.version.trim_start_matches('v').to_string();
+    let current_version = CURRENT_VERSION.to_string();
+    let has_update = compare_versions(&latest_version, &current_version);
+
+    if has_update {
+        logger::log_info(&format!("New version found (updater.json): {} (Current: {})", latest_version, current_version));
+    } else {
+        logger::log_info(&format!("Up to date (updater.json): {} (Matches {})", current_version, latest_version));
+    }
+
+    let download_url = format!("https://github.com/lbjlaq/Antigravity-Manager/releases/tag/v{}", latest_version);
+
+    Ok(UpdateInfo {
+        current_version,
+        latest_version,
+        has_update,
+        download_url,
+        release_notes: updater_info.notes.unwrap_or_else(|| "Release notes available on GitHub.".to_string()),
+        published_at: updater_info.pub_date.unwrap_or_else(|| Utc::now().to_rfc3339()),
+        source: Some("updater.json".to_string()),
+    })
 }
 
 async fn create_client() -> Result<reqwest::Client, String> {

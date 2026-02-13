@@ -485,3 +485,94 @@ pub fn create_codex_sse_stream(
     };
     Box::pin(stream)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use futures::stream;
+    use serde_json::json;
+
+    #[tokio::test]
+    async fn test_openai_streaming_usage_only_at_end() {
+        // Chunk 1: Partial content, no usage
+        let chunk1_json = json!({
+            "candidates": [{
+                "content": {
+                    "parts": [{ "text": "Hello" }]
+                }
+            }]
+        });
+        
+        // Chunk 2: Finish reason + Usage metadata
+        let chunk2_json = json!({
+            "candidates": [{
+                "finishReason": "STOP",
+                "content": {
+                    "parts": [{ "text": "" }]
+                }
+            }],
+            "usageMetadata": {
+                "promptTokenCount": 5,
+                "candidatesTokenCount": 2,
+                "totalTokenCount": 7
+            }
+        });
+
+        // Use a helper to create the stream items compatible with the required signature
+        let items: Vec<Result<Bytes, reqwest::Error>> = vec![
+            Ok(Bytes::from(format!("data: {}\n\n", chunk1_json))),
+            Ok(Bytes::from(format!("data: {}\n\n", chunk2_json))),
+        ];
+
+        let gemini_stream = Box::pin(stream::iter(items));
+
+        let mut openai_stream = create_openai_sse_stream(
+            gemini_stream,
+            "gemini-1.5-flash".to_string(),
+            "test-session".to_string(),
+            0
+        );
+
+        let mut chunks = Vec::new();
+        while let Some(result) = openai_stream.next().await {
+            if let Ok(bytes) = result {
+                let s = String::from_utf8_lossy(&bytes).to_string();
+                for line in s.lines() {
+                    if line.starts_with("data: ") && !line.contains("[DONE]") {
+                        chunks.push(line.to_string());
+                    }
+                }
+            }
+        }
+
+        let mut found_usage = false;
+        let mut found_finish = false;
+
+        for (i, chunk_str) in chunks.iter().enumerate() {
+            let json_str = chunk_str.trim_start_matches("data: ").trim();
+            let json: Value = serde_json::from_str(json_str).unwrap();
+
+            if i < chunks.len() - 1 {
+                assert!(json.get("usage").is_none(), "Usage should not be in intermediate chunks. Found in chunk {}", i);
+            } else {
+                if let Some(usage) = json.get("usage") {
+                    found_usage = true;
+                    assert_eq!(usage["prompt_tokens"], 5);
+                    assert_eq!(usage["completion_tokens"], 2);
+                    assert_eq!(usage["total_tokens"], 7);
+                }
+                 if let Some(choices) = json.get("choices") {
+                    if let Some(choice) = choices.get(0) {
+                        if let Some(finish_reason) = choice.get("finish_reason") {
+                             if finish_reason.as_str() == Some("stop") {
+                                 found_finish = true;
+                             }
+                        }
+                    }
+                }
+            }
+        }
+        assert!(found_usage, "Usage should be found in the last chunk");
+        assert!(found_finish, "Finish reason should be strictly 'stop'");
+    }
+}

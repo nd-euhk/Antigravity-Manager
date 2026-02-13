@@ -1,5 +1,5 @@
 # Antigravity Tools 🚀
-> Professional AI Account Management & Protocol Proxy System (v4.1.16)
+> Professional AI Account Management & Protocol Proxy System (v4.1.17)
 
 <div align="center">
   <img src="public/icon.png" alt="Antigravity Logo" width="120" height="120" style="border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
@@ -9,7 +9,7 @@
   
   <p>
     <a href="https://github.com/nd-euhk/Antigravity-Manager">
-      <img src="https://img.shields.io/badge/Version-4.1.16-blue?style=flat-square" alt="Version">
+      <img src="https://img.shields.io/badge/Version-4.1.17-blue?style=flat-square" alt="Version">
     </a>
     <img src="https://img.shields.io/badge/Tauri-v2-orange?style=flat-square" alt="Tauri">
     <img src="https://img.shields.io/badge/Backend-Rust-red?style=flat-square" alt="Rust">
@@ -114,10 +114,28 @@ graph TD
 
 ## 📥 Installation
 
-### Option A: Terminal Installation (macOS & Linux Recommended)
+### Option A: Terminal Installation (Recommended)
 
-#### macOS
-If you have [Homebrew](https://brew.sh/) installed, run:
+#### Cross-Platform One-Line Install Scripts
+
+Automatically detects your OS, architecture, and package manager — one command to download and install.
+
+**Linux / macOS:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/lbjlaq/Antigravity-Manager/main/install.sh | bash
+```
+
+**Windows (PowerShell):**
+```powershell
+irm https://raw.githubusercontent.com/lbjlaq/Antigravity-Manager/main/install.ps1 | iex
+```
+
+> **Supported formats**: Linux (`.deb` / `.rpm` / `.AppImage`) | macOS (`.dmg`) | Windows (NSIS `.exe`)
+>
+> **Advanced usage**: Install a specific version `curl -fsSL ... | bash -s -- --version 4.1.17`, dry-run mode `curl -fsSL ... | bash -s -- --dry-run`
+
+#### macOS - Homebrew
+If you have [Homebrew](https://brew.sh/) installed, you can also install via:
 
 ```bash
 # 1. Tap the repository
@@ -138,7 +156,7 @@ curl -sSL https://raw.githubusercontent.com/nd-euhk/Antigravity-Manager/main/dep
 
 **Option 2: via Homebrew** (If you have [Linuxbrew](https://sh.brew.sh/) installed)
 ```bash
-brew tap nd-euhk/antigravity-manager https://github.com/nd-euhk/Antigravity-Manager/releases/download/v4.1.15/Antigravity_Tools_4.1.15_x64.dmg
+brew tap lbjlaq/antigravity-manager https://github.com/lbjlaq/Antigravity-Manager/releases/download/v4.1.15/Antigravity_Tools_4.1.15_x64.dmg
 ```
 
 #### Other Linux Distributions
@@ -264,6 +282,17 @@ print(response.choices[0].message.content)
 ## 📝 Developer & Community
 
 *   **Changelog**:
+    *   **v4.1.17 (2026-02-13)**:
+        -   **[UX] Auto-Update Experience Upgrade (PR #1923)**:
+            -   **Background Download**: Implemented silent background downloading of updates, no longer blocking user operations during the process.
+            -   **Progress Feedback**: Added a download progress bar to provide real-time status feedback.
+            -   **Restart Prompt**: A more user-friendly restart prompt appears after download completion, supporting "Restart Now" or "Restart Later".
+            -   **Logic Optimization**: Prioritized checking `updater.json` to reduce direct dependency on GitHub API, improving check speed.
+        -   **[Documentation] Cross-Platform Install Scripts (PR #1931)**:
+            -   **One-Click Install**: Updated Option A in README to recommend the cross-platform one-click installation script.
+        -   **[Community] Added Telegram Channel Entry**:
+            -   **Community Card**: Added a Telegram Channel card to the "Settings -> About" page, allowing users to quickly join the official channel for the latest updates.
+            -   **Layout Optimization**: Adjusted the grid layout of cards on the About page to fit 5 columns, ensuring a clean and organized interface.
     *   **v4.1.16 (2026-02-12)**:
         -   **[Core Fix] Resolve Claude Protocol (Thinking Model) 400 Errors (V4 Scheme)**:
             -   **Protocol Alignment**: Completely fixed the `400 Invalid Argument` error caused by parameter structure mismatch when calling models like Claude 3.7/4.5 Thinking via proxy.

@@ -3,7 +3,7 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct OpenAIRequest {
     pub model: String,
     #[serde(default)]
@@ -46,7 +46,7 @@ pub struct OpenAIRequest {
 }
 
 /// Thinking 配置 (兼容 Anthropic 和 OpenAI 扩展协议)
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct ThinkingConfig {
     #[serde(rename = "type")]
     pub thinking_type: Option<String>, // "enabled", "disabled", or "adaptive"

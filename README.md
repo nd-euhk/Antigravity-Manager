@@ -1,5 +1,5 @@
 # Antigravity Tools 🚀
-> 专业级 AI 账号管理与协议代理系统 (v4.1.16)
+> 专业级 AI 账号管理与协议代理系统 (v4.1.17)
 <div align="center">
   <img src="public/icon.png" alt="Antigravity Logo" width="120" height="120" style="border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
 
@@ -8,7 +8,7 @@
   
   <p>
     <a href="https://github.com/nd-euhk/Antigravity-Manager">
-      <img src="https://img.shields.io/badge/Version-4.1.16-blue?style=flat-square" alt="Version">
+      <img src="https://img.shields.io/badge/Version-4.1.17-blue?style=flat-square" alt="Version">
     </a>
     <img src="https://img.shields.io/badge/Tauri-v2-orange?style=flat-square" alt="Tauri">
     <img src="https://img.shields.io/badge/Backend-Rust-red?style=flat-square" alt="Rust">
@@ -113,10 +113,28 @@ graph TD
 
 ##  安装指南 (Installation)
 
-### 选项 A: 终端安装 (macOS & Linux 推荐)
+### 选项 A: 终端安装 (推荐)
 
-#### macOS 
-如果您已安装 [Homebrew](https://brew.sh/)，可以通过以下命令快速安装：
+#### 跨平台一键安装脚本
+
+自动检测操作系统、架构和包管理器，一条命令完成下载与安装。
+
+**Linux / macOS:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/lbjlaq/Antigravity-Manager/main/install.sh | bash
+```
+
+**Windows (PowerShell):**
+```powershell
+irm https://raw.githubusercontent.com/lbjlaq/Antigravity-Manager/main/install.ps1 | iex
+```
+
+> **支持的格式**: Linux (`.deb` / `.rpm` / `.AppImage`) | macOS (`.dmg`) | Windows (NSIS `.exe`)
+>
+> **高级用法**: 安装指定版本 `curl -fsSL ... | bash -s -- --version 4.1.17`，预览模式 `curl -fsSL ... | bash -s -- --dry-run`
+
+#### macOS - Homebrew
+如果您已安装 [Homebrew](https://brew.sh/)，也可以通过以下命令安装：
 
 ```bash
 # 1. 订阅本仓库的 Tap
@@ -413,6 +431,17 @@ response = client.chat.completions.create(
 ## 📝 开发者与社区
 
 *   **版本演进 (Changelog)**:
+    *   **v4.1.17 (2026-02-13)**:
+        -   **[用户体验] 自动更新体验升级 (PR #1923)**:
+            -   **后台下载**: 实现了更新包的后台静默下载，下载过程中不再阻断用户操作。
+            -   **进度反馈**: 新增下载进度条显示，实时反馈下载状态。
+            -   **重启提示**: 下载完成后会弹出更友好的重启提示，支持“立即重启”或“稍后重启”。
+            -   **逻辑优化**: 优先检查 `updater.json`，减少对 GitHub API 的直接依赖，提升检查速度。
+        -   **[文档更新] 跨平台安装脚本 (PR #1931)**:
+            -   **一键安装**: 在 README 中更新了 Option A 安装方式，推荐使用跨平台一键安装脚本。
+        -   **[社区建设] 新增 Telegram 频道入口**:
+            -   **社群卡片**: 在“设置 -> 关于”页面新增了 Telegram 频道卡片，方便用户快速加入官方频道获取最新资讯。
+            -   **布局优化**: 调整了关于页面的卡片网格布局，适配了 5 列显示，确保界面整洁美观。
     *   **v4.1.16 (2026-02-12)**:
         -   **[核心修复] 修复 Claude 协议 (Thinking 模型) 400 错误 (V4 方案)**:
             -   **协议对齐**: 彻底修复了 Claude 3.7/4.5 Thinking 等模型在通过代理调用时因参数结构不匹配导致的 `400 Invalid Argument` 错误。

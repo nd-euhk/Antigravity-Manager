@@ -747,23 +747,7 @@ mod tests {
                 tool_call_id: None,
                 name: None,
             }],
-            stream: false,
-            n: None,
-            max_tokens: None,
-            temperature: None,
-            top_p: None,
-            stop: None,
-            response_format: None,
-            tools: None,
-            tool_choice: None,
-            parallel_tool_calls: None,
-            instructions: None,
-            input: None,
-            prompt: None,
-            size: None,
-            quality: None,
-            person_generation: None,
-            thinking: None,
+            ..Default::default()
         };
 
         // Auto mode (default) should cap gemini-3-pro thinking budget to 24576
@@ -783,6 +767,7 @@ mod tests {
         update_thinking_budget_config(ThinkingBudgetConfig {
             mode: ThinkingBudgetMode::Custom,
             custom_value: 32000,
+            effort: None,
         });
 
         let req = OpenAIRequest {
@@ -805,13 +790,7 @@ mod tests {
             tools: None,
             tool_choice: None,
             parallel_tool_calls: None,
-            instructions: None,
-            input: None,
-            prompt: None,
-            size: None,
-            quality: None,
-            person_generation: None,
-            thinking: None,
+            ..Default::default()
         };
 
         // 验证针对 Gemini 模型即使是 Custom 模式也会被修正为 24576
@@ -862,13 +841,7 @@ mod tests {
             tools: None,
             tool_choice: None,
             parallel_tool_calls: None,
-            instructions: None,
-            input: None,
-            prompt: None,
-            size: None,
-            quality: None,
-            person_generation: None,
-            thinking: None,
+            ..Default::default()
         };
 
         let (result, _sid, _msg_count) = transform_openai_request(&req, "test-v", "gemini-1.5-flash");
@@ -899,6 +872,7 @@ mod tests {
             thinking: Some(ThinkingConfig {
                 thinking_type: Some("enabled".to_string()),
                 budget_tokens: Some(16000),
+                effort: None,
             }),
             max_tokens: None,
             temperature: None,
@@ -908,12 +882,7 @@ mod tests {
             tools: None,
             tool_choice: None,
             parallel_tool_calls: None,
-            instructions: None,
-            input: None,
-            prompt: None,
-            size: None,
-            quality: None,
-            person_generation: None,
+            ..Default::default()
         };
 
         // Pass explicit gemini-3-pro-preview which doesn't have "-thinking" suffix
@@ -939,23 +908,7 @@ mod tests {
                 tool_call_id: None,
                 name: None,
             }],
-            stream: false,
-            n: None,
-            thinking: None,
-            max_tokens: None,
-            temperature: None,
-            top_p: None,
-            stop: None,
-            response_format: None,
-            tools: None,
-            tool_choice: None,
-            parallel_tool_calls: None,
-            instructions: None,
-            input: None,
-            prompt: None,
-            size: Some("1024x1024".to_string()),
-            quality: Some("hd".to_string()),
-            person_generation: None,
+            ..Default::default()
         };
 
         // Pass gemini-3-pro-image which matches "gemini-3-pro" substring
@@ -992,13 +945,7 @@ mod tests {
             tools: None,
             tool_choice: None,
             parallel_tool_calls: None,
-            instructions: None,
-            input: None,
-            prompt: None,
-            size: None,
-            quality: None,
-            person_generation: None,
-            thinking: None,
+            ..Default::default()
         };
 
         let (result, _sid, _msg_count) = transform_openai_request(&req, "test-p", "gemini-3-pro-high-thinking");
@@ -1031,6 +978,7 @@ mod tests {
             thinking: Some(ThinkingConfig {
                 thinking_type: Some("enabled".to_string()),
                 budget_tokens: Some(32768),
+                effort: None,
             }),
             max_tokens: None,
             temperature: None,
@@ -1040,12 +988,7 @@ mod tests {
             tools: None,
             tool_choice: None,
             parallel_tool_calls: None,
-            instructions: None,
-            input: None,
-            prompt: None,
-            size: None,
-            quality: None,
-            person_generation: None,
+            ..Default::default()
         };
 
         // Test with Flash model
@@ -1081,33 +1024,8 @@ mod tests {
                 tool_call_id: None,
                 name: None,
             }],
-            stream: false,
-            n: None,
-            max_tokens: None,
-            temperature: None,
-            top_p: None,
-            stop: None,
-            response_format: None,
-            tools: Some(vec![json!({
-                "type": "function",
-                "function": {
-                    "name": "test_tool",
-                    "description": "Test tool",
-                    "parameters": {
-                        "type": "object",
-                        "properties": {}
-                    }
-                }
-            })]),
-            tool_choice: None,
-            parallel_tool_calls: None,
-            instructions: None,
-            input: None,
-            prompt: None,
-            size: None,
-            quality: None,
             person_generation: None,
-            thinking: None,
+            ..Default::default()
         };
 
         // Simulate Vertex AI path
@@ -1143,20 +1061,8 @@ mod tests {
             tools: None,
             tool_choice: None,
             parallel_tool_calls: None,
-            stream: false,
-            temperature: None,
-            top_p: None,
-            max_tokens: None,
-            n: None,
-            stop: None,
-            response_format: None,
-            instructions: None,
-            input: None,
-            prompt: None,
-            size: None,
-            quality: None,
             person_generation: None,
-            thinking: None,
+            ..Default::default()
         };
 
         // 2. Transform request

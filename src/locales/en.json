@@ -494,6 +494,7 @@
             "tech_stack": "Tech Stack",
             "author": "Author",
             "wechat": "WeChat",
+            "telegram": "Telegram Channel",
             "github": "GitHub",
             "view_code": "View Code",
             "copyright": "Copyright © 2025-2026 Antigravity. All rights reserved.",
@@ -1157,15 +1158,18 @@
         }
     },
     "update_notification": {
-        "title": "New Version Available",
+        "title": "Updating...",
         "message": "A new version is ready with optimizations and improvements. Current: v{{current}}",
-        "ready": "Update Ready",
-        "downloading": "Downloading update...",
+        "ready": "Update Ready!",
+        "downloading": "Downloading update in background...",
         "restarting": "Restarting application...",
         "auto_update": "Auto Update",
+        "restart_prompt": "Update downloaded and ready to install. Restart now?",
+        "btn_restart": "Restart",
+        "btn_later": "Later",
         "toast": {
-            "not_ready": "Auto-update package is not ready, redirecting to download page...",
-            "failed": "Auto-update failed, redirecting to download page..."
+            "not_ready": "Update artifacts are not ready yet. Will retry later.",
+            "failed": "Auto-update failed"
         }
     },
     "login": {
