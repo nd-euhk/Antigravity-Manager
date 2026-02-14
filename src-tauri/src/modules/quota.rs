@@ -540,6 +540,11 @@ async fn fetch_quota_from_google(
                 
                 // Set subscription tier
                 quota_data.subscription_tier = subscription_tier.clone();
+
+                crate::modules::logger::log_info(&format!(
+                    "🌐 [{}] Quota fetched from Google API ({} models)",
+                    email, quota_data.models.len()
+                ));
                 
                 return Ok((quota_data, project_id.clone()));
             },

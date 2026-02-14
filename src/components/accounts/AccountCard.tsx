@@ -200,6 +200,19 @@ function AccountCard({ account, selected, onSelect, isCurrent: propIsCurrent, is
                         </div>
                         <span className="text-[10px] text-gray-400 dark:text-gray-500 font-mono shrink-0 whitespace-nowrap">
                             {new Date(account.last_used * 1000).toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
+                            {account.quota?.quota_source && (
+                                <>
+                                    <span className="text-gray-300 dark:text-gray-600">|</span>
+                                    <span className={cn(
+                                        "capitalize",
+                                        account.quota.quota_source === 'local' ? "text-emerald-500" :
+                                            account.quota.quota_source === 'google' ? "text-blue-500" :
+                                                "text-amber-500"
+                                    )}>
+                                        {account.quota.quota_source === 'google' ? 'Cloud' : account.quota.quota_source}
+                                    </span>
+                                </>
+                            )}
                         </span>
                     </div>
                 </div>

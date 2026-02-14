@@ -32,6 +32,7 @@ export interface QuotaData {
     last_updated: number;
     is_forbidden?: boolean;
     subscription_tier?: string;  // 订阅类型: FREE/PRO/ULTRA
+    quota_source?: string;  // 配额来源: "local", "google", "cache"
 }
 
 export interface ModelQuota {
