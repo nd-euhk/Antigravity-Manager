@@ -427,6 +427,34 @@ pub async fn fetch_quota_with_cache(
         // Local API unavailable or failed → return cached data
         let mut cached_data = cached_entry.data.clone();
         cached_data.quota_source = Some("cache".to_string());
+
+        // Check if any model's reset_time has passed → reset percentage to 100%
+        let now = chrono::Utc::now();
+        let mut any_reset = false;
+        for model in cached_data.models.iter_mut() {
+            if !model.reset_time.is_empty() {
+                if let Ok(reset_dt) = chrono::DateTime::parse_from_rfc3339(&model.reset_time) {
+                    if now >= reset_dt {
+                        if model.percentage < 100 {
+                            tracing::debug!(
+                                "[QuotaCache] Model '{}' reset_time {} has passed, resetting {}% → 100%",
+                                model.name, model.reset_time, model.percentage
+                            );
+                            model.percentage = 100;
+                            any_reset = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        if any_reset {
+            crate::modules::logger::log_info(&format!(
+                "🔄 [{}] Some cached models reached reset_time, percentages reset to 100%", email
+            ));
+            set_cached_quota(email, cached_data.clone(), cached_entry.project_id.clone());
+        }
+
         crate::modules::logger::log_info(&format!(
             "📦 [{}] Using cached quota ({} models, cached at {})",
             email, cached_data.models.len(), cached_entry.fetched_at
