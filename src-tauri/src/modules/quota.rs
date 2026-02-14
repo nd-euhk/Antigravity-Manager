@@ -387,7 +387,7 @@ pub async fn fetch_quota_with_cache(
 
     if let Some(ref cached_entry) = cached {
         // Cache exists → try local API first
-        if let Some(conn) = crate::modules::process::find_language_server_connection() {
+        if let Some(conn) = crate::modules::process::find_language_server_connection().await {
             match fetch_quota_local(&conn).await {
                 Ok((mut quota_data, local_email)) => {
                     // Verify email matches (local server may be logged into different account)
